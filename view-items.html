@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Items</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="navbar">
+        <div>
+            <a href="#">Home</a>
+            <a href="#">Suppliers</a>
+        </div>
+        <div>View Items</div>
+    </div>
+
+    <div class="container">
+        <h1>View Items</h1>
+
+        <input type="text" id="search" placeholder="Search items..." onkeyup="filterTable()">
+        <button onclick="loadItems()">Refresh</button>
+
+        <table id="itemsTable">
+            <tr>
+                <th>Item ID</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Supplier</th>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        // Sample data
+        let items = [
+            { id: "001", name: "Wireless Mouse", category: "Electronics", qty: 50, price: "₱350", supplier: "TechZone" },
+            { id: "002", name: "Keyboard", category: "Electronics", qty: 30, price: "₱450", supplier: "GadgetHub" },
+            { id: "003", name: "Office Chair", category: "Furniture", qty: 15, price: "₱2,800", supplier: "FurniPro" },
+            { id: "004", name: "Notebook", category: "Stationery", qty: 200, price: "₱45", supplier: "PaperLine" }
+        ];
+
+        window.onload = loadItems;
+
+        function loadItems() {
+            const table = document.getElementById("itemsTable");
+
+            // Reset table header
+            table.innerHTML = `
+            <tr>
+                <th>Item ID</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Supplier</th>
+            </tr>`;
+
+            // Insert rows
+            items.forEach(i => {
+                let row = table.insertRow();
+                row.insertCell(0).innerHTML = i.id;
+                row.insertCell(1).innerHTML = i.name;
+                row.insertCell(2).innerHTML = i.category;
+                row.insertCell(3).innerHTML = i.qty;
+                row.insertCell(4).innerHTML = i.price;
+                row.insertCell(5).innerHTML = i.supplier;
+            });
+        }
+
+        function filterTable() {
+            const input = document.getElementById("search").value.toLowerCase();
+            const rows = document.querySelectorAll("#itemsTable tr");
+
+            for (let i = 1; i < rows.length; i++) {
+                let rowText = rows[i].innerText.toLowerCase();
+                rows[i].style.display = rowText.includes(input) ? "" : "none";
+            }
+        }
+    </script>
+
+</body>
+</html>
