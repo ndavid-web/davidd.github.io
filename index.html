@@ -1,2 +1,185 @@
-# davidd.github.io
-Inventory-Management-system
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Inventory Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+
+        .card:hover {
+            background: #f0f0f0;
+        }
+
+        .emoji {
+            font-size: 28px;
+            margin-right: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        input, button {
+            padding: 8px;
+            margin: 5px 0;
+        }
+
+        button {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <h1>Inventory Management System</h1>
+
+        <div class="card" onclick="showSection('viewItems')">
+            <span class="emoji">📦</span> <b>View Items</b>
+            <p>See all products in stock with details and quantities.</p>
+        </div>
+
+        <div class="card" onclick="showSection('addItem')">
+            <span class="emoji">➕</span> <b>Add New Item</b>
+            <p>Register new inventory items quickly and easily.</p>
+        </div>
+
+        <div class="card" onclick="showSection('suppliers')">
+            <span class="emoji">🏭</span> <b>Suppliers</b>
+            <p>Manage supplier information and contact details.</p>
+        </div>
+
+        <!-- VIEW ITEMS -->
+        <div id="viewItems" class="hidden">
+            <h2>📦 Items in Inventory</h2>
+            <table id="itemsTable">
+                <tr>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Category</th>
+                </tr>
+            </table>
+        </div>
+
+        <!-- ADD ITEM -->
+        <div id="addItem" class="hidden">
+            <h2>➕ Add New Item</h2>
+            <input id="itemName" placeholder="Item Name"><br>
+            <input id="itemQty" type="number" placeholder="Quantity"><br>
+            <input id="itemCategory" placeholder="Category"><br>
+            <button onclick="addItem()">Add Item</button>
+        </div>
+
+        <!-- SUPPLIERS -->
+        <div id="suppliers" class="hidden">
+            <h2>🏭 Suppliers</h2>
+            <table id="supplierTable">
+                <tr>
+                    <th>Name</th>
+                    <th>Contact</th>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            document.querySelectorAll('#viewItems, #addItem, #suppliers')
+                .forEach(sec => sec.classList.add('hidden'));
+            document.getElementById(sectionId).classList.remove('hidden');
+        }
+
+        // Sample data
+        let items = [
+            { name: "Keyboard", qty: 20, category: "Electronics" },
+            { name: "Mouse", qty: 15, category: "Electronics" },
+        ];
+
+        let suppliers = [
+            { name: "TechWorld Corp", contact: "09234567890" },
+            { name: "Mega Supply", contact: "09344567811" }
+        ];
+
+        window.onload = function() {
+            loadItems();
+            loadSuppliers();
+        };
+
+        function loadItems() {
+            const table = document.getElementById("itemsTable");
+            items.forEach(i => {
+                let row = table.insertRow();
+                row.insertCell(0).innerHTML = i.name;
+                row.insertCell(1).innerHTML = i.qty;
+                row.insertCell(2).innerHTML = i.category;
+            });
+        }
+
+        function loadSuppliers() {
+            const table = document.getElementById("supplierTable");
+            suppliers.forEach(s => {
+                let row = table.insertRow();
+                row.insertCell(0).innerHTML = s.name;
+                row.insertCell(1).innerHTML = s.contact;
+            });
+        }
+
+        function addItem() {
+            const name = document.getElementById("itemName").value;
+            const qty = document.getElementById("itemQty").value;
+            const cat = document.getElementById("itemCategory").value;
+
+            if (!name || !qty || !cat) {
+                alert("Please enter all fields.");
+                return;
+            }
+
+            items.push({ name, qty, category: cat });
+            document.getElementById("itemsTable").innerHTML =
+                "<tr><th>Name</th><th>Quantity</th><th>Category</th></tr>";
+            loadItems();
+            alert("Item added!");
+        }
+    </script>
+</body>
+</html>
